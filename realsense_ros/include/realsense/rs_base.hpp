@@ -19,6 +19,7 @@
 #include "sensor_msgs/msg/image.hpp"
 #include "sensor_msgs/msg/camera_info.hpp"
 #include "sensor_msgs/msg/imu.hpp"
+#include <image_transport/image_transport.h>
 #include "nav_msgs/msg/odometry.hpp"
 #include "tf2/LinearMath/Quaternion.h"
 #include "tf2_ros/static_transform_broadcaster.h"
@@ -112,7 +113,7 @@ protected:
   std::map<stream_index_pair, VideoStreamInfo> stream_info_;
   std::map<stream_index_pair, sensor_msgs::msg::CameraInfo> camera_info_;
 
-  std::map<stream_index_pair, rclcpp::Publisher<sensor_msgs::msg::Image>::SharedPtr> image_pub_;
+  std::map<stream_index_pair, image_transport::Publisher> image_pub_;
   std::map<stream_index_pair, rclcpp::Publisher<sensor_msgs::msg::CameraInfo>::SharedPtr> camera_info_pub_;
   std::map<stream_index_pair, rclcpp::Publisher<sensor_msgs::msg::Imu>::SharedPtr> imu_pub_;
   std::map<stream_index_pair, rclcpp::Publisher<realsense_msgs::msg::IMUInfo>::SharedPtr> imu_info_pub_;
