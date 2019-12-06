@@ -74,6 +74,7 @@ find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(pcl_conversions REQUIRED)
 find_package(realsense_msgs)
+find_package(image_transport)
 
 find_package(realsense2)
 if(NOT realsense2_FOUND)
