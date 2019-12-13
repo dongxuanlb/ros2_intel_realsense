@@ -48,9 +48,14 @@ void RealSenseNodeFactory::init()
   } else {
     serial_no_ = std::to_string(param_value.get<rclcpp::PARAMETER_INTEGER>());
   }
+  auto param_delay = declare_parameter("delay", 0);
   try {
     query_thread_ = std::thread([=]()
               {
+		if (param_delay > 0) {
+			std::this_thread::sleep_for(std::chrono::seconds(param_delay));
+		}
+		
                 std::chrono::milliseconds TIMESPAN(600);
                 while (!dev_) {
                   auto dev_lst = ctx_.query_devices();
