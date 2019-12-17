@@ -26,5 +26,6 @@ def generate_launch_description():
         node_executable='realsense_node',
         node_namespace='',
         output='screen',
+        emulate_tty=True
         )
     return launch.LaunchDescription([rgbd_node])
