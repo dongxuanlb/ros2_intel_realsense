@@ -46,11 +46,11 @@ void RealSenseT265::publishTopicsCallback(const rs2::frame & frame)
 
   if (frame.is<rs2::frameset>()) {
     auto frameset = frame.as<rs2::frameset>();
-    if (enable_[FISHEYE1] && (image_pub_[FISHEYE1].getNumSubscribers() > 0 || camera_info_pub_[FISHEYE1]->get_subscription_count() > 0)) {
+    if (enable_[FISHEYE1] && (image_pub_[FISHEYE1]->get_subscription_count() > 0 || camera_info_pub_[FISHEYE1]->get_subscription_count() > 0)) {
       auto frame = frameset.get_fisheye_frame(1);
       publishImageTopic(frame, t);
     }
-    if (enable_[FISHEYE2] && (image_pub_[FISHEYE2].getNumSubscribers() > 0 || camera_info_pub_[FISHEYE2]->get_subscription_count() > 0)) {
+    if (enable_[FISHEYE2] && (image_pub_[FISHEYE2]->get_subscription_count() > 0 || camera_info_pub_[FISHEYE2]->get_subscription_count() > 0)) {
       auto frame = frameset.get_fisheye_frame(2);
       publishImageTopic(frame, t);
     }

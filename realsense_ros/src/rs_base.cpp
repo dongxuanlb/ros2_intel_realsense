@@ -148,8 +148,8 @@ void RealSenseBase::setupStream(const stream_index_pair & stream)
     VideoStreamInfo info(static_cast<int>(res[0]), static_cast<int>(res[1]), fps);
 
     stream_info_.insert(std::pair<stream_index_pair, VideoStreamInfo>(stream, info));
-    image_pub_.insert(std::pair<stream_index_pair, image_transport::Publisher>
-      (stream, image_transport::create_publisher(&node_, SAMPLE_TOPIC.at(stream))));
+    image_pub_.insert(std::pair<stream_index_pair, rclcpp::Publisher<sensor_msgs::msg::Image>::SharedPtr>
+      (stream, node_.create_publisher<sensor_msgs::msg::Image>(SAMPLE_TOPIC.at(stream), rclcpp::QoS(1))));
     camera_info_pub_.insert(std::pair<stream_index_pair, rclcpp::Publisher<sensor_msgs::msg::CameraInfo>::SharedPtr>
       (stream, node_.create_publisher<sensor_msgs::msg::CameraInfo>(INFO_TOPIC.at(stream), rclcpp::QoS(1))));
     if (enable == true) {
@@ -179,7 +179,7 @@ void RealSenseBase::publishImageTopic(const rs2::frame & frame, const rclcpp::Ti
     //
     img->header.frame_id = OPTICAL_FRAME_ID.at(type_index);
     img->header.stamp = time;
-    image_pub_[type_index].publish(*img);
+    image_pub_[type_index]->publish(*img);
   } else {
     auto img = std::make_unique<sensor_msgs::msg::Image>();
     cv_bridge::CvImage(std_msgs::msg::Header(), MSG_ENCODING.at(type), cv_image).toImageMsg(*img);
@@ -188,7 +188,7 @@ void RealSenseBase::publishImageTopic(const rs2::frame & frame, const rclcpp::Ti
     //
     img->header.frame_id = OPTICAL_FRAME_ID.at(type_index);
     img->header.stamp = time;
-    image_pub_[type_index].publish(std::move(img));
+    image_pub_[type_index]->publish(std::move(img));
   }
   //TODO: need to update calibration data if anything is changed dynamically.
   camera_info_[type_index].header.stamp = time;

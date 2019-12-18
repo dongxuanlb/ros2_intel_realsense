@@ -61,19 +61,19 @@ void RealSenseD435::publishTopicsCallback(const rs2::frame & frame)
 {
   rs2::frameset frameset = frame.as<rs2::frameset>();
   rclcpp::Time t = node_.now();
-  if (enable_[COLOR] && (image_pub_[COLOR].getNumSubscribers() > 0 || camera_info_pub_[COLOR]->get_subscription_count() > 0)){
+  if (enable_[COLOR] && (image_pub_[COLOR]->get_subscription_count() > 0 || camera_info_pub_[COLOR]->get_subscription_count() > 0)){
     auto frame = frameset.get_color_frame();
     publishImageTopic(frame, t);
   }
-  if (enable_[DEPTH] && (image_pub_[DEPTH].getNumSubscribers() > 0 || camera_info_pub_[DEPTH]->get_subscription_count() > 0)) {
+  if (enable_[DEPTH] && (image_pub_[DEPTH]->get_subscription_count() > 0 || camera_info_pub_[DEPTH]->get_subscription_count() > 0)) {
     auto frame = frameset.get_depth_frame();
     publishImageTopic(frame, t);
   }
-  if (enable_[INFRA1] && (image_pub_[INFRA1].getNumSubscribers() > 0 || camera_info_pub_[INFRA1]->get_subscription_count() > 0)) {
+  if (enable_[INFRA1] && (image_pub_[INFRA1]->get_subscription_count() > 0 || camera_info_pub_[INFRA1]->get_subscription_count() > 0)) {
     auto frame = frameset.get_infrared_frame(1);
     publishImageTopic(frame, t);
   }
-  if (enable_[INFRA2] && (image_pub_[INFRA2].getNumSubscribers() > 0 || camera_info_pub_[INFRA2]->get_subscription_count() > 0)) {
+  if (enable_[INFRA2] && (image_pub_[INFRA2]->get_subscription_count() > 0 || camera_info_pub_[INFRA2]->get_subscription_count() > 0)) {
     auto frame = frameset.get_infrared_frame(2);
     publishImageTopic(frame, t);
   }
