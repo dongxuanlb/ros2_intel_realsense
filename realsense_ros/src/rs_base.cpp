@@ -20,9 +20,7 @@ namespace realsense
 using namespace std::chrono_literals;
 
 RealSenseBase::RealSenseBase(rs2::context ctx, rs2::device dev, rclcpp::Node & node)
-: node_(node),
-  ctx_(ctx),
-  dev_(dev)
+: node_(node), ctx_(ctx), dev_(dev)
 {
   // Publish static transforms
   if (node_.has_parameter("base_frame_id")) {
@@ -184,7 +182,7 @@ void RealSenseBase::publishImageTopic(const rs2::frame & frame, const rclcpp::Ti
     auto img = std::make_unique<sensor_msgs::msg::Image>();
     cv_bridge::CvImage(std_msgs::msg::Header(), MSG_ENCODING.at(type), cv_image).toImageMsg(*img);
     //debug
-    //RCLCPP_INFO(node_.get_logger(), "intra: timestamp: %f, address: %p", time.seconds(), reinterpret_cast<std::uintptr_t>(img.get()));
+    RCLCPP_INFO(node_.get_logger(), "intra: timestamp: %f, address: %p", time.seconds(), reinterpret_cast<std::uintptr_t>(img.get()));
     //
     img->header.frame_id = OPTICAL_FRAME_ID.at(type_index);
     img->header.stamp = time;

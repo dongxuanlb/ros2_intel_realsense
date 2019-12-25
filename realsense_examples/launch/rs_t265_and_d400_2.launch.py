@@ -46,6 +46,7 @@ def generate_launch_description():
         node_executable='realsense_node',
         node_namespace="/t265",
         output='screen',
+	emulate_tty=True,
         remappings=[('/t265/camera/odom/sample','/odom')],
         parameters=[{'serial_no':t265_serial_no ,
                 'base_frame_id': t265_base_frame_id}]
@@ -55,9 +56,11 @@ def generate_launch_description():
         node_executable='realsense_node',
         node_namespace="/d435",
         output='screen',
+	emulate_tty=True,
         parameters=[{'serial_no':rgbd_serial_no, 
                 'base_frame_id': rgbd_base_frame_id,
-                'enable_pointcloud':'true',
-                'dense_pointcloud' : 'true'}]
+                'enable_pointcloud': True,
+                'dense_pointcloud' : True,
+		'delay': 3}]
         )
     return launch.LaunchDescription([tf_node, t265_node, rgbd_node])
